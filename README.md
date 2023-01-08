@@ -13,3 +13,9 @@ I suggest the use of `pyenv` to manage your python versions and your environment
 It is a good practice to avoid using the system version of python as some projects require the use of several versions of python. 
 For more information about the installation of `pyenv`, the installation of a version of `python`, the creation of an environment using this tool please check this link : https://akrabat.com/creating-virtual-environments-with-pyenv/
 If you are using `Visual Studio Code` editor, you can download the plugin `Python Environment Manager` as it gives you a nice overview of the different versions of `python` and the different environments created in your machine.
+
+# dependencies of the project
+- `python` : the programming language that is used on the server side
+- `terraform` : is an open-source infrastructure as code software tool that enables you to safely and predictably create, change, and improve the infrastructure of this project
+- `LocalStack` : to run AWS applications or Lambdas entirely on a local machine without connecting to a remote cloud provider
+- `Docker` : to packages code and its dependencies so the application runs quickly and reliably across computing environments
