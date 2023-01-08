@@ -20,9 +20,11 @@ However, you need to have `AWS` credentials setup on your machine and `aws-cli` 
 Please check https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html for the installation of `aws-cli`.
 To create your `AWS` credentials, run `aws configure` and then fill the fields with dummy information.
 As an example, here's what my dummy credentials look like : 
+```
 [default]
 aws_access_key_id = dummy
 aws_secret_access_key = dummy
+```
 
 # dependencies of the project
 - `python` : the programming language that is used on the server side
