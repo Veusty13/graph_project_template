@@ -1,0 +1,5 @@
+version: "3.8"
+services:
+  local-stack:
+    image: localstack/localstack:latest
+    container_name: graph_project_localstack

@@ -6,3 +6,6 @@ activate-environment :
 
 install-requirements : 
 	pip install -r requirements.txt
+
+docker-compose : 
+	docker compose up
