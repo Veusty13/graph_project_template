@@ -15,6 +15,6 @@ services:
       - AWS_SECRET_ACCESS_KEY=dummy
     volumes:
       - ./infra:/infra
-      - .scripts:/scripts
+      - ./scripts:/scripts
     working_dir: /infra
     entrypoint: /scripts/terraform_commands.sh
