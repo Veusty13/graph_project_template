@@ -2,4 +2,18 @@ version: "3.8"
 services:
   local-stack:
     image: localstack/localstack:latest
-    container_name: graph_project_localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+  terraform:
+    image: hashicorp/terraform:latest
+    container_name: terraform
+    depends_on:
+      - local-stack
+    environment:
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+    volumes:
+      - ./infra:/infra
+    working_dir: /infra
+    entrypoint: /infra/script/terraform_commands.sh
