@@ -14,7 +14,11 @@ split-raw-data :
 	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N30000 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
 
 send-new-data-to-bucket : 
-	docker exec -it localstack awslocal s3 cp ./split_data/fraud_data_partition_$(index_file).csv s3://project-bucket/new_data/fraud_data_partition_$(index_file).csv
+	docker exec -it localstack \
+		awslocal s3 cp \
+		./split_data/fraud_data_partition_$(index_file).csv \
+		s3://project-bucket/new_data/fraud_data_partition_$(index_file).csv
+
 
 list-objects-in-bucket : 
 	docker exec -it localstack awslocal s3 ls s3://project-bucket --recursive --human-readable --summarize
