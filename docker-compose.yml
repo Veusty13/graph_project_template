@@ -3,6 +3,8 @@ services:
   local-stack:
     image: localstack/localstack:latest
     container_name: localstack
+    volumes:
+      - ./src/resources/split_data:/opt/code/localstack/split_data
     ports:
       - "4566:4566"
   terraform:
