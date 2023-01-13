@@ -132,7 +132,9 @@ dmypy.json
 .terraform.lock.hcl
 terraform.tfstate
 infra/.terraform/*
+infra/terraform.tfstate.backup
 
 # resources data files
 src/resources/original_data/*
 src/resources/split_data/*
+

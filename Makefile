@@ -10,8 +10,11 @@ install-requirements :
 docker-compose : 
 	docker compose up
 
+ssh-localstack : 
+	docker exec -it localstack /bin/bash
+
 split-raw-data : 
-	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N30000 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
+	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N10 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
 
 send-new-data-to-bucket : 
 	docker exec -it localstack \

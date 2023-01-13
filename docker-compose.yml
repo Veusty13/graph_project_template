@@ -18,5 +18,5 @@ services:
     volumes:
       - ./infra:/infra
       - ./scripts:/scripts
-    working_dir: /infra
+      - ./src:/src
     entrypoint: /scripts/terraform_commands.sh

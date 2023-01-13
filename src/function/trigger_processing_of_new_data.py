@@ -31,7 +31,3 @@ def lambda_handler(event, context) -> None:
     LOG.info(
         f"done moving objects to {s3_folder_path_to}, total moved objects: {count_retrieved_keys - count_failed_keys}, failed : {count_failed_keys} key(s)"
     )
-
-
-if __name__ == "__main__":
-    lambda_handler("", "")
