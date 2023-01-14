@@ -49,7 +49,12 @@ resource "aws_iam_role" "lambda_exec" {
     {
       "Sid": "AllObjectActions",
       "Effect": "Allow",
-      "Action": "s3:*Object",
+      "Action": [     
+        "s3:PutObject",
+        "s3:ListBucket",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
       "Resource": ["arn:aws:s3:::project-bucket/*"]
     }
     ]
