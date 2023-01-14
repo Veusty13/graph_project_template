@@ -22,6 +22,13 @@ send-new-data-to-bucket :
 		./split_data/fraud_data_partition_$(index_file).csv \
 		s3://project-bucket/new_data/fraud_data_partition_$(index_file).csv
 
-
 list-objects-in-bucket : 
 	docker exec -it localstack awslocal s3 ls s3://project-bucket --recursive --human-readable --summarize
+
+list-lambda-functions : 
+	docker exec -it localstack awslocal lambda list-functions
+
+test-lambda-trigger-process : 
+	docker exec -it localstack awslocal lambda invoke \
+		--function-name trigger-processing-function \
+		./output_test.log

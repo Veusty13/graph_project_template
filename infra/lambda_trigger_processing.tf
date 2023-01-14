@@ -21,7 +21,7 @@ data "archive_file" "lambda_zip" {
 resource "aws_s3_object" "lambda_zip" {
   bucket = aws_s3_bucket.project_bucket.id
 
-  key    = "function.zip"
+  key    = "deployment_folder/function.zip"
   source = data.archive_file.lambda_zip.output_path
 
   etag = filemd5(data.archive_file.lambda_zip.output_path)
