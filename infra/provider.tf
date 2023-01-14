@@ -13,6 +13,8 @@ provider "aws" {
     s3 = "http://localstack:4566"
     sns = "http://localstack:4566"
     sqs = "http://localstack:4566"
-    cloudwatch = "http://localstack:4566"
+    cloudwatch ="http://localstack:4566"
+    cloudwatchlogs ="http://localstack:4566"
+    cloudwatchevents = "http://localstack:4566"
   }
 }

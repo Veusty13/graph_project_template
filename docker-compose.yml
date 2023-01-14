@@ -7,6 +7,9 @@ services:
       - ./src/resources/split_data:/opt/code/localstack/split_data
     ports:
       - "4566:4566"
+    environment:
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
   terraform:
     image: hashicorp/terraform:latest
     container_name: terraform

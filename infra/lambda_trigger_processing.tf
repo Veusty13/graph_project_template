@@ -1,4 +1,4 @@
-resource "aws_lambda_function" "lambda" {
+ resource "aws_lambda_function" "trigger_processing_function" {
   function_name = "trigger-processing-function"
 
   s3_bucket = aws_s3_bucket.project_bucket.id
@@ -59,4 +59,12 @@ resource "aws_iam_role" "lambda_exec" {
     }
     ]
   })
+}
+
+resource "aws_lambda_permission" "trigger-processing-function-allow-cloudwatch" {
+  statement_id  = "AllowExecutionOfTriggerProcessingFunctionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.trigger_processing_function.arn
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.trigger_processing_function.arn
 }
