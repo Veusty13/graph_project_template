@@ -1,5 +1,5 @@
 import boto3
-from typing import List
+from typing import List, Any
 from config.settings import ENDPOINT_URL
 
 s3 = boto3.client(service_name="s3", endpoint_url=ENDPOINT_URL)
@@ -28,6 +28,25 @@ def get_all_s3_keys(s3_path_to_folder: str) -> List[str]:
         else:
             break
     return keys
+
+
+def get_s3_path_from_event(event: dict) -> List[str]:
+    s3_paths_list = []
+    records = event["Records"]
+    for record in records:
+        s3_info = record["s3"]
+        bucket = s3_info["bucket"]["name"]
+        key = s3_info["object"]["key"]
+        s3_path = get_s3_path(bucket_name=bucket, path_in_bucket=key)
+        s3_paths_list.append(s3_path)
+    return s3_paths_list
+
+
+def get_s3_object_body_from_path(s3_path) -> Any:
+    bucket, key = parse_s3_path(s3_path=s3_path)
+    data = s3.get_object(Bucket=bucket, Key=key)
+    body = data["Body"]
+    return body
 
 
 def move_object(s3_key_from: str, s3_key_to: str) -> str:
