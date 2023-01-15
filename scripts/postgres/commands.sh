@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm -r ./postgres/
 psql -U postgres -c "drop database if exists graph_project"
 psql -U postgres -c "CREATE DATABASE graph_project"
 psql -U postgres -c "grant all privileges on database graph_project to postgres"

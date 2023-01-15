@@ -27,40 +27,6 @@ resource "aws_s3_object" "lambda_zip" {
   etag = filemd5(data.archive_file.lambda_zip.output_path)
 }
 
-resource "aws_iam_role" "lambda_exec" {
-  name = "serverless_lambda"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Sid    = ""
-      Principal = {
-        Service = "lambda.amazonaws.com"
-      }
-    },
-    {
-      "Sid": "ListObjectsInBucket",
-      "Effect": "Allow",
-      "Action": ["s3:ListBucket"],
-      "Resource": ["arn:aws:s3:::project-bucket"]
-    },
-    {
-      "Sid": "AllObjectActions",
-      "Effect": "Allow",
-      "Action": [     
-        "s3:PutObject",
-        "s3:ListBucket",
-        "s3:GetObject",
-        "s3:DeleteObject"
-      ],
-      "Resource": ["arn:aws:s3:::project-bucket/*"]
-    }
-    ]
-  })
-}
-
 resource "aws_lambda_permission" "trigger-processing-function-allow-cloudwatch" {
   statement_id  = "AllowExecutionOfTriggerProcessingFunctionFromCloudWatch"
   action        = "lambda:InvokeFunction"

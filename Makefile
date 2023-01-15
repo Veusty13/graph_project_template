@@ -28,7 +28,7 @@ list-objects-in-bucket :
 list-lambda-functions : 
 	docker exec -it localstack awslocal lambda list-functions
 
-test-lambda-trigger-process : 
+test-lambda : 
 	docker exec -it localstack awslocal lambda invoke \
-		--function-name trigger-processing-function \
+		--function-name $(function_name) \
 		./output_test.log
