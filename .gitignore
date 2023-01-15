@@ -138,3 +138,4 @@ infra/terraform.tfstate.backup
 src/resources/original_data/*
 src/resources/split_data/*
 
+infra/.terraform.tfstate.lock.info

@@ -20,6 +20,19 @@ services:
       - AWS_SECRET_ACCESS_KEY=dummy
     volumes:
       - ./infra:/infra
-      - ./scripts:/scripts
+      - ./scripts/terraform/:/scripts
       - ./src:/src
-    entrypoint: /scripts/terraform_commands.sh
+    entrypoint: /scripts/commands.sh
+  postgre:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PROJECT_DATABASE_NAME=graph_project
+    volumes:
+      - ./scripts/postgres/:/docker-entrypoint-initdb.d
+    depends_on:
+      - local-stack
+    ports:
+      - "5432:5432"
