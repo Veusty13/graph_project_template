@@ -49,12 +49,17 @@ def get_s3_object_body_from_path(s3_path) -> Any:
     return body
 
 
-def move_object(s3_key_from: str, s3_key_to: str) -> str:
-    bucket_name, key_from = parse_s3_path(s3_key_from)
-    _, key_to = parse_s3_path(s3_key_to)
+def move_object(s3_path_from: str, s3_path_to: str) -> None:
+    bucket_name, key_from = parse_s3_path(s3_path_from)
+    _, key_to = parse_s3_path(s3_path_to)
     copy_source = {"Bucket": bucket_name, "Key": key_from}
     s3.copy_object(Bucket=bucket_name, CopySource=copy_source, Key=key_to)
     s3.delete_object(Bucket=bucket_name, Key=key_from)
+
+
+def delete_s3_object(s3_path: str) -> None:
+    bucket_name, key = parse_s3_path(s3_path)
+    s3.delete_object(Bucket=bucket_name, Key=key)
 
 
 def get_s3_path(bucket_name: str, path_in_bucket: str) -> str:

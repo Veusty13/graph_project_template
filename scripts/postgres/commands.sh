@@ -5,7 +5,7 @@ psql -U postgres -c "drop database if exists graph_project"
 psql -U postgres -c "CREATE DATABASE graph_project"
 psql -U postgres -c "grant all privileges on database graph_project to postgres"
 psql -U postgres -d graph_project -c "CREATE TABLE transactions (
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   step NUMERIC,
   type VARCHAR(255),
   amount NUMERIC(11,2), 
