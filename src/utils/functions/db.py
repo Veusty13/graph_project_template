@@ -1,7 +1,6 @@
 import pandas as pd
 from typing import Any
 import io
-from typing import Any
 
 
 def build_db_config_string(db_config: dict) -> str:
