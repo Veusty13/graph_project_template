@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm src/*.zip
+rm src/function.zip
 
 cd infra/
 
@@ -12,4 +12,4 @@ terraform apply -auto-approve
 
 cd ..
 
-rm src/*.zip
+rm src/function.zip

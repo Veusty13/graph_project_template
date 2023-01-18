@@ -5,7 +5,8 @@ activate-environment :
 	pyenv activate venv_graph_project
 
 install-requirements : 
-	pip install -r requirements.txt
+	pip install -r ./requirements_dev.txt
+	pip install -r ./src/requirements.txt
 
 docker-compose : 
 	docker compose up
