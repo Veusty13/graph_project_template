@@ -1,3 +1,3 @@
 FROM localstack/localstack:latest
 
-COPY ./src/resources/split_data /split_data
+COPY ./src/resources/split_data /opt/code/localstack/split_data

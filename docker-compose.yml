@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  local-stack:
+  graph-project-local-stack:
     image: graph-project-local-stack
     container_name: graph-project-local-stack
     ports:
@@ -8,23 +8,25 @@ services:
     environment:
       - AWS_ACCESS_KEY_ID=dummy
       - AWS_SECRET_ACCESS_KEY=dummy
-  terraform-python:
+
+  graph-project-terraform-python:
     image: graph-project-terraform-python
-    container_name: graph-project-local-stack
+    container_name: graph-project-terraform-python
     depends_on:
       - graph-project-local-stack
     environment:
       - AWS_ACCESS_KEY_ID=dummy
       - AWS_SECRET_ACCESS_KEY=dummy
     entrypoint: /scripts/commands.sh
-    postgres:
-      image: graph-project-postgres
-      container_name: graph-project-local-stack
-      environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-        - PROJECT_DATABASE_NAME=graph_project
-      depends_on:
-        - graph-project-local-stack
-      ports:
-        - "5432:5432"
+
+  graph-project-postgres:
+    image: graph-project-postgres
+    container_name: graph-project-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PROJECT_DATABASE_NAME=graph_project
+    depends_on:
+      - graph-project-local-stack
+    ports:
+      - "5432:5432"

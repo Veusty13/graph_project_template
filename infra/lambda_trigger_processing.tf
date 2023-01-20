@@ -14,14 +14,14 @@
 
 data "archive_file" "lambda_zip" {
   type = "zip"
-  source_dir  = "../src/"
-  output_path = "../src/function.zip"
+  source_dir  = "../lambda_package/"
+  output_path = "../lambda_package.zip"
 }
 
 resource "aws_s3_object" "lambda_zip" {
   bucket = aws_s3_bucket.project_bucket.id
 
-  key    = "deployment_folder/function.zip"
+  key    = "deployment_folder/lambda_package.zip"
   source = data.archive_file.lambda_zip.output_path
 
   etag = filemd5(data.archive_file.lambda_zip.output_path)
