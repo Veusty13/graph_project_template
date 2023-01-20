@@ -8,7 +8,13 @@ install-requirements :
 	pip install -r ./requirements_dev.txt
 	pip install -r ./src/requirements.txt
 
+build-images : 
+	docker build -f "Dockerfile.terraform_python" -t "graph-project-terraform-python" "."
+	docker build -f "Dockerfile.postgres" -t "graph-project-postgres" "."
+	docker build -f "Dockerfile.local_stack" -t "graph-project-local-stack" "."
+
 docker-compose : 
+	make build-images
 	docker compose up
 
 ssh-localstack : 

@@ -1,46 +1,30 @@
 version: "3.8"
 services:
-  lambda:
-    image: python:3.9-slim-buster
-    container_name: lambda
-    volumes:
-      - ./src:/src:ro
-      - ./scripts/aws/:/scripts:ro
+  local-stack:
+    image: graph-project-local-stack
+    container_name: graph-project-local-stack
+    ports:
+      - "4566:4566"
+    environment:
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+  terraform-python:
+    image: graph-project-terraform-python
+    container_name: graph-project-local-stack
+    depends_on:
+      - graph-project-local-stack
+    environment:
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
     entrypoint: /scripts/commands.sh
-  # local-stack:
-  #   image: localstack/localstack:latest
-  #   container_name: localstack
-  #   volumes:
-  #     - ./src/resources/split_data:/opt/code/localstack/split_data
-  #   ports:
-  #     - "4566:4566"
-  #   environment:
-  #     - AWS_ACCESS_KEY_ID=dummy
-  #     - AWS_SECRET_ACCESS_KEY=dummy
-  # terraform:
-  #   image: hashicorp/terraform:latest
-  #   container_name: terraform
-  #   depends_on:
-  #     - local-stack
-  #     - lambda
-  #   environment:
-  #     - AWS_ACCESS_KEY_ID=dummy
-  #     - AWS_SECRET_ACCESS_KEY=dummy
-  #   volumes:
-  #     - ./infra:/infra
-  #     - ./scripts/terraform/:/scripts
-  #     - ./src:/src
-  #   entrypoint: /scripts/commands.sh
-  # postgre:
-  #   image: postgres:latest
-  #   container_name: postgres
-  #   environment:
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #     - PROJECT_DATABASE_NAME=graph_project
-  #   volumes:
-  #     - ./scripts/postgres/:/docker-entrypoint-initdb.d
-  #   depends_on:
-  #     - local-stack
-  #   ports:
-  #     - "5432:5432"
+    postgres:
+      image: graph-project-postgres
+      container_name: graph-project-local-stack
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - PROJECT_DATABASE_NAME=graph_project
+      depends_on:
+        - graph-project-local-stack
+      ports:
+        - "5432:5432"
