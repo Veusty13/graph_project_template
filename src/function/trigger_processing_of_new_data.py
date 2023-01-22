@@ -21,7 +21,7 @@ def lambda_handler(event, context) -> None:
                 bucket_name=BUCKET_NAME, path_in_bucket=key_from
             )
             s3_key_path_to = get_s3_path(bucket_name=BUCKET_NAME, path_in_bucket=key_to)
-            move_object(s3_key_from=s3_key_path_from, s3_key_to=s3_key_path_to)
+            move_object(s3_path_from=s3_key_path_from, s3_path_to=s3_key_path_to)
         except Exception as e:
             count_failed_keys += 1
             LOG.error(
