@@ -23,6 +23,7 @@ services:
     image: graph-project-postgres
     container_name: graph-project-postgres
     environment:
+      - DB_HOST=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - PROJECT_DATABASE_NAME=graph_project

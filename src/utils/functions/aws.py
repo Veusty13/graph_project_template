@@ -1,6 +1,7 @@
 import boto3
 from typing import List, Any
 from config.settings import ENDPOINT_URL
+import json
 
 s3 = boto3.client(service_name="s3", endpoint_url=ENDPOINT_URL)
 
@@ -34,11 +35,13 @@ def get_s3_path_from_event(event: dict) -> List[str]:
     s3_paths_list = []
     records = event["Records"]
     for record in records:
-        s3_info = record["s3"]
-        bucket = s3_info["bucket"]["name"]
-        key = s3_info["object"]["key"]
-        s3_path = get_s3_path(bucket_name=bucket, path_in_bucket=key)
-        s3_paths_list.append(s3_path)
+        body = json.loads(record["body"])
+        for body_record in body["Records"]:
+            s3_info = body_record["s3"]
+            bucket = s3_info["bucket"]["name"]
+            key = s3_info["object"]["key"]
+            s3_path = get_s3_path(bucket_name=bucket, path_in_bucket=key)
+            s3_paths_list.append(s3_path)
     return s3_paths_list
 
 
