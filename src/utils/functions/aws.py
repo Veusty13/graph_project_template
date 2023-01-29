@@ -4,6 +4,7 @@ from config.settings import ENDPOINT_URL
 import json
 
 s3 = boto3.client(service_name="s3", endpoint_url=ENDPOINT_URL)
+sqs = boto3.client(service_name="sqs", endpoint_url=ENDPOINT_URL)
 
 
 def parse_s3_path(s3_path: str) -> List[str]:
@@ -67,3 +68,19 @@ def delete_s3_object(s3_path: str) -> None:
 
 def get_s3_path(bucket_name: str, path_in_bucket: str) -> str:
     return f"s3://{bucket_name}/{path_in_bucket}"
+
+
+def send_sqs_message(message: dict, queue_url: str) -> None:
+    sqs.send_message(
+        QueueUrl=queue_url,
+        MessageBody=json.dumps(message),
+    )
+
+
+def get_message_from_sqs(event: dict) -> List[Any]:
+    message = []
+    records = event["Records"]
+    for record in records:
+        body = json.loads(record["body"])
+        message.append(body)
+    return message

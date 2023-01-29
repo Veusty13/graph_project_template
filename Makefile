@@ -39,6 +39,9 @@ list-objects-in-bucket :
 list-lambda-functions : 
 	docker exec -it graph-project-local-stack awslocal lambda list-functions
 
+list-sqs-queues : 
+	docker exec -it graph-project-local-stack awslocal sqs list-queues
+
 test-lambda : 
 	docker exec -it graph-project-local-stack awslocal lambda invoke \
 		--function-name $(function_name) \

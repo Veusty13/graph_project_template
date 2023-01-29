@@ -7,7 +7,7 @@ def build_db_config_string(db_config: dict) -> str:
     return " ".join([f"{key}='{db_config[key]}'" for key in db_config.keys()])
 
 
-def insert_data_from_buffer(df: pd.DataFrame, connection: Any):
+def insert_data_from_buffer(df: pd.DataFrame, connection: Any) -> None:
     with connection.cursor() as cursor:
         buffer = io.StringIO()
         df.to_csv(buffer, index=False, header=False)
@@ -19,3 +19,13 @@ def insert_data_from_buffer(df: pd.DataFrame, connection: Any):
             buffer,
         )
         connection.commit()
+
+
+def execute_read_query(query: str, connection: Any) -> pd.DataFrame:
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        columns = [desc[0] for desc in cursor.description]
+        rows = cursor.fetchall()
+        output_table = pd.DataFrame(data=rows, columns=columns)
+        connection.commit()
+    return output_table
