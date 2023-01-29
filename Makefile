@@ -15,6 +15,7 @@ build-images :
 
 docker-compose : 
 	make build-images
+	docker image prune -f 
 	docker compose up
 
 ssh-localstack : 
