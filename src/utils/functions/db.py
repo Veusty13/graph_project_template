@@ -27,5 +27,4 @@ def execute_read_query(query: str, connection: Any) -> pd.DataFrame:
         columns = [desc[0] for desc in cursor.description]
         rows = cursor.fetchall()
         output_table = pd.DataFrame(data=rows, columns=columns)
-        connection.commit()
     return output_table
