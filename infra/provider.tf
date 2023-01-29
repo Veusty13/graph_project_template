@@ -7,14 +7,14 @@ provider "aws" {
   s3_use_path_style = true
 
   endpoints {
-    apigateway = "http://localstack:4566"
-    iam = "http://localstack:4566"
-    lambda = "http://localstack:4566"
-    s3 = "http://localstack:4566"
-    sns = "http://localstack:4566"
-    sqs = "http://localstack:4566"
-    cloudwatch ="http://localstack:4566"
-    cloudwatchlogs ="http://localstack:4566"
-    cloudwatchevents = "http://localstack:4566"
+    apigateway = "http://graph-project-local-stack:4566"
+    iam = "http://graph-project-local-stack:4566"
+    lambda = "http://graph-project-local-stack:4566"
+    s3 = "http://graph-project-local-stack:4566"
+    sns = "http://graph-project-local-stack:4566"
+    sqs = "http://graph-project-local-stack:4566"
+    cloudwatch ="http://graph-project-local-stack:4566"
+    cloudwatchlogs ="http://graph-project-local-stack:4566"
+    cloudwatchevents = "http://graph-project-local-stack:4566"
   }
 }

@@ -1,38 +1,33 @@
 version: "3.8"
 services:
-  local-stack:
-    image: localstack/localstack:latest
-    container_name: localstack
-    volumes:
-      - ./src/resources/split_data:/opt/code/localstack/split_data
+  graph-project-local-stack:
+    image: graph-project-local-stack
+    container_name: graph-project-local-stack
     ports:
       - "4566:4566"
     environment:
       - AWS_ACCESS_KEY_ID=dummy
       - AWS_SECRET_ACCESS_KEY=dummy
-  terraform:
-    image: hashicorp/terraform:latest
-    container_name: terraform
+
+  graph-project-terraform-python:
+    image: graph-project-terraform-python
+    container_name: graph-project-terraform-python
     depends_on:
-      - local-stack
+      - graph-project-local-stack
     environment:
       - AWS_ACCESS_KEY_ID=dummy
       - AWS_SECRET_ACCESS_KEY=dummy
-    volumes:
-      - ./infra:/infra
-      - ./scripts/terraform/:/scripts
-      - ./src:/src
     entrypoint: /scripts/commands.sh
-  postgre:
-    image: postgres:latest
-    container_name: postgres
+
+  graph-project-postgres:
+    image: graph-project-postgres
+    container_name: graph-project-postgres
     environment:
+      - DB_HOST=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - PROJECT_DATABASE_NAME=graph_project
-    volumes:
-      - ./scripts/postgres/:/docker-entrypoint-initdb.d
     depends_on:
-      - local-stack
+      - graph-project-local-stack
     ports:
       - "5432:5432"

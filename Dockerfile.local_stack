@@ -1,0 +1,3 @@
+FROM localstack/localstack:0.13.0-amd64
+
+COPY ./src/resources/split_data /opt/code/localstack/split_data
