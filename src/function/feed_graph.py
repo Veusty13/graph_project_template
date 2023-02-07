@@ -9,8 +9,8 @@ import psycopg2
 def lambda_handler(event, context) -> None:
     message = get_message_from_sqs(event=event)
     LOG.info(message)
-    connection_config: str = build_db_config_string(DB_CONFIG_DICT)
-    conn = psycopg2.connect(connection_config)
+    pg_connection_config: str = build_db_config_string(DB_CONFIG_DICT)
+    conn = psycopg2.connect(pg_connection_config)
     for message_element in message:
         last_batch_id = message_element["last_batch_id"]
         query = get_last_batch_query.format(last_batch_id)

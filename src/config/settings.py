@@ -14,6 +14,13 @@ DB_CONFIG_DICT = {
     "user": db_user,
     "password": db_password,
 }
+GREMLIN_CONFIG_DICT = {
+    "protocol": "ws",
+    "host": "graph-project-gremlin",
+    "port": 8182,
+    "service": "gremlin",
+    "traversal_source": "g",
+}
 sqs_queue_url_template = "http://localhost:4566/000000000000/{}"
 SQS_QUEUE_URL_FEED_TABLE = sqs_queue_url_template.format("feed-table-queue")
 SQS_QUEUE_URL_FEED_GRAPH = sqs_queue_url_template.format("feed-graph-queue")
