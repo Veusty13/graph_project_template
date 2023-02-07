@@ -1,5 +1,5 @@
 import pandas as pd
-from typing import Any
+from typing import Any, List
 import io
 
 
@@ -21,10 +21,10 @@ def insert_data_from_buffer(df: pd.DataFrame, connection: Any) -> None:
         connection.commit()
 
 
-def execute_read_query(query: str, connection: Any) -> pd.DataFrame:
+def execute_read_query(query: str, connection: Any) -> List[dict]:
     with connection.cursor() as cursor:
         cursor.execute(query)
-        columns = [desc[0] for desc in cursor.description]
-        rows = cursor.fetchall()
-        output_table = pd.DataFrame(data=rows, columns=columns)
-    return output_table
+        headers = [desc[0] for desc in cursor.description]
+        values = cursor.fetchall()
+        response = [{k: v for k, v in zip(headers, item)} for item in values]
+    return response

@@ -14,17 +14,6 @@ It is a good practice to avoid using the system version of python as some projec
 For more information about the installation of `pyenv`, the installation of a version of `python`, the creation of an environment using this tool please check this link : https://akrabat.com/creating-virtual-environments-with-pyenv/
 If you are using `Visual Studio Code` editor, you can download the plugin `Python Environment Manager` as it gives you a nice overview of the different versions of `python` and the different environments created in your machine.
 
-# set up your aws account
-To run this project you do not need to have an `AWS` account because all the infrastructure will be emulated on our local machine.
-However, you need to have `AWS` credentials setup on your machine and `aws-cli` installed.
-Please check https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html for the installation of `aws-cli`.
-To create your `AWS` credentials, run `aws configure` and then fill the fields with dummy information.
-As an example, here's what my dummy credentials look like : 
-```
-[default]
-aws_access_key_id = dummy
-aws_secret_access_key = dummy
-```
 
 # dependencies of the project
 - `python` : the programming language that is used on the server side
@@ -32,3 +21,6 @@ aws_secret_access_key = dummy
 - `LocalStack` : to run AWS applications or Lambdas entirely on a local machine without connecting to a remote cloud provider
 - `Docker` : to packages code and its dependencies so the application runs quickly and reliably across computing environments
 - `aws-cli` : a command line interface to interact with `AWS` objects
+
+# data source
+For this project we will use synthetic bank data available here : https://www.kaggle.com/datasets/ealaxi/paysim1

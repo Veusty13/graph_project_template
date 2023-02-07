@@ -24,6 +24,9 @@ ssh-localstack :
 ssh-postgres : 
 	docker exec -it graph-project-postgres /bin/bash
 
+ssh-gremlin-console : 
+	docker exec -it graph-project-gremlin-console /bin/bash bin/gremlin.sh
+
 split-raw-data : 
 	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N10 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
 
@@ -46,3 +49,6 @@ test-lambda :
 	docker exec -it graph-project-local-stack awslocal lambda invoke \
 		--function-name $(function_name) \
 		./output_test.log
+
+query-read-table : 
+	docker exec -it graph-project-local-stack psql -U postgres -d graph_project -c "select * from transactions;"
