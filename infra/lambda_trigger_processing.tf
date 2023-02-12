@@ -4,7 +4,7 @@
   s3_bucket = aws_s3_bucket.project_bucket.id
   s3_key    = aws_s3_object.lambda_zip.key
 
-  runtime = "python3.9"
+  runtime = "python3.8"
   handler = "trigger_processing_of_new_data.lambda_handler"
 
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256

@@ -84,3 +84,57 @@ data "aws_iam_policy_document" "feed_table_queue" {
     }
   }
 }
+
+
+data "aws_iam_policy_document" "feed_graph_queue" {
+  policy_id = "${aws_sqs_queue.feed_graph_queue.arn}/SQSAccess"
+
+  statement {
+    sid    = "ConsumerAccess"
+    effect = "Allow"
+    actions = [
+      "SQS:ReceiveMessage",
+      "SQS:DeleteMessage",
+      "SQS:GetQueueUrl",
+    ]
+    resources = [
+      aws_sqs_queue.feed_graph_queue.arn,
+    ]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+
+      values = [
+        aws_lambda_function.feed_graph_function.arn
+      ]
+    }
+  }
+  statement {
+    sid    = "ProducerAccess"
+    effect = "Allow"
+    actions = [
+      "SQS:SendMessage"
+    ]
+    resources = [
+    aws_sqs_queue.feed_graph_queue.arn]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+
+      values = [
+        aws_lambda_function.feed_table_function.arn
+      ]
+    }
+  }
+}

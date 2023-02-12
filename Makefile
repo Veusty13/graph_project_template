@@ -12,6 +12,7 @@ build-images :
 	docker build -f "Dockerfile.terraform_python" -t "graph-project-terraform-python" "."
 	docker build -f "Dockerfile.postgres" -t "graph-project-postgres" "."
 	docker build -f "Dockerfile.local_stack" -t "graph-project-local-stack" "."
+	docker build -f "Dockerfile.gremlin" -t "graph-project-gremlin" "."
 
 docker-compose : 
 	make build-images
@@ -24,14 +25,23 @@ ssh-localstack :
 ssh-postgres : 
 	docker exec -it graph-project-postgres /bin/bash
 
-split-raw-data : 
-	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N10 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
+ssh-gremlin-console : 
+	docker exec -it graph-project-gremlin-console /bin/bash bin/gremlin.sh
 
-send-new-data-to-bucket : 
+split-raw-data : 
+	cat resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N50000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
+
+send-single-partition-to-bucket : 
 	docker exec -it graph-project-local-stack \
 		awslocal s3 cp \
-		./split_data/fraud_data_partition_$(index_file).csv \
-		s3://project-bucket/new_data/fraud_data_partition_$(index_file).csv
+		./split_data/fraud_data_partition_$(index_partition).csv \
+		s3://project-bucket/new_data/fraud_data_partition_$(index_partition).csv
+
+send-all-partitions-to-bucket: 
+	docker exec -it graph-project-local-stack \
+		awslocal s3 cp \
+		./split_data/ \
+		s3://project-bucket/new_data/ --recursive
 
 list-objects-in-bucket : 
 	docker exec -it graph-project-local-stack awslocal s3 ls s3://project-bucket --recursive --human-readable --summarize
@@ -39,7 +49,13 @@ list-objects-in-bucket :
 list-lambda-functions : 
 	docker exec -it graph-project-local-stack awslocal lambda list-functions
 
+list-sqs-queues : 
+	docker exec -it graph-project-local-stack awslocal sqs list-queues
+
 test-lambda : 
 	docker exec -it graph-project-local-stack awslocal lambda invoke \
 		--function-name $(function_name) \
 		./output_test.log
+
+query-read-table : 
+	docker exec -it graph-project-local-stack psql -U postgres -d graph_project -c "select * from transactions;"
