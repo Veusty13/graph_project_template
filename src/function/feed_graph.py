@@ -3,7 +3,7 @@ from utils.functions.aws import get_message_from_sqs
 from utils.functions.db import execute_read_query, build_db_config_string
 from config.settings import DB_CONFIG_DICT, GREMLIN_CONFIG_DICT
 
-from resources.queries.get_last_batch import query as get_last_batch_query
+from utils.queries.get_last_batch import query as get_last_batch_query
 import psycopg2
 from utils.functions.gremlins import GremlinClient
 from utils.types import Transaction

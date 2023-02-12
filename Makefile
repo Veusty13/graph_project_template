@@ -29,13 +29,19 @@ ssh-gremlin-console :
 	docker exec -it graph-project-gremlin-console /bin/bash bin/gremlin.sh
 
 split-raw-data : 
-	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N50000 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
+	cat resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N50000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
 
-send-new-data-to-bucket : 
+send-single-partition-to-bucket : 
 	docker exec -it graph-project-local-stack \
 		awslocal s3 cp \
-		./split_data/fraud_data_partition_$(index_file).csv \
-		s3://project-bucket/new_data/fraud_data_partition_$(index_file).csv
+		./split_data/fraud_data_partition_$(index_partition).csv \
+		s3://project-bucket/new_data/fraud_data_partition_$(index_partition).csv
+
+send-all-partitions-to-bucket: 
+	docker exec -it graph-project-local-stack \
+		awslocal s3 cp \
+		./split_data/ \
+		s3://project-bucket/new_data/ --recursive
 
 list-objects-in-bucket : 
 	docker exec -it graph-project-local-stack awslocal s3 ls s3://project-bucket --recursive --human-readable --summarize
