@@ -1,0 +1,4 @@
+FROM tinkerpop/gremlin-server:3.6
+
+COPY ./scripts/gremlin/commands.sh /scripts/commands.sh
+RUN /scripts/commands.sh

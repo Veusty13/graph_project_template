@@ -31,7 +31,7 @@ services:
     ports:
       - "5432:5432"
   graph-project-gremlin:
-    image: tinkerpop/gremlin-server:3.6
+    image: graph-project-gremlin
     container_name: graph-project-gremlin
     depends_on:
       - graph-project-local-stack
@@ -41,5 +41,3 @@ services:
   #   image: tinkerpop/gremlin-console:3.6
   #   container_name: graph-project-gremlin-console
   #   tty: true
-  # depends_on:
-  #   - graph-project-local-stack

@@ -12,6 +12,7 @@ build-images :
 	docker build -f "Dockerfile.terraform_python" -t "graph-project-terraform-python" "."
 	docker build -f "Dockerfile.postgres" -t "graph-project-postgres" "."
 	docker build -f "Dockerfile.local_stack" -t "graph-project-local-stack" "."
+	docker build -f "Dockerfile.gremlin" -t "graph-project-gremlin" "."
 
 docker-compose : 
 	make build-images
@@ -28,7 +29,7 @@ ssh-gremlin-console :
 	docker exec -it graph-project-gremlin-console /bin/bash bin/gremlin.sh
 
 split-raw-data : 
-	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N10 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
+	cat src/resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N50000 'cat > src/resources/split_data/fraud_data_partition_{#}.csv'
 
 send-new-data-to-bucket : 
 	docker exec -it graph-project-local-stack \

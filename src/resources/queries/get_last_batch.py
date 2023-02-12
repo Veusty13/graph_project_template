@@ -1,4 +1,5 @@
 query = """select
+    id :: int as id,
     step :: int as step,
     type :: char as type,
     amount :: float as amount,
