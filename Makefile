@@ -13,6 +13,7 @@ build-images :
 	docker build -f "Dockerfile.postgres" -t "graph-project-postgres" "."
 	docker build -f "Dockerfile.local_stack" -t "graph-project-local-stack" "."
 	docker build -f "Dockerfile.gremlin" -t "graph-project-gremlin" "."
+	docker build -f "Dockerfile.gremlin_console" -t "graph-project-gremlin-console" "."
 
 docker-compose : 
 	make build-images
@@ -25,11 +26,13 @@ ssh-localstack :
 ssh-postgres : 
 	docker exec -it graph-project-postgres /bin/bash
 
+# :remote connect tinkerpop.server conf/remote.yaml session 
+# :remote console
 ssh-gremlin-console : 
-	docker exec -it graph-project-gremlin-console /bin/bash bin/gremlin.sh
+	docker exec -it graph-project-gremlin-console /bin/bash bin/gremlin.sh 
 
 split-raw-data : 
-	cat resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N50000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
+	cat resources/original_data/bank_fraud_raw_data_0.csv | parallel --header : --pipe -N1000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
 
 send-single-partition-to-bucket : 
 	docker exec -it graph-project-local-stack \

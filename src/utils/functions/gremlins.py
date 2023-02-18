@@ -58,14 +58,14 @@ class GremlinClient:
                 .select("e")
                 .next()
             )
-            LOG.info(
-                f"existing edge with label {edge_type.value} and id {edge_id} between {vertex_id_from} and {vertex_id_to} : {existing_edge}"
-            )
+            # LOG.info(
+            #     f"existing edge with label {edge_type.value} and id {edge_id} between {vertex_id_from} and {vertex_id_to} : {existing_edge}"
+            # )
         except Exception:
 
-            LOG.info(
-                f"no existing edge with label {edge_type.value} and id {edge_id} between {vertex_id_from} and {vertex_id_to}"
-            )
+            # LOG.info(
+            #     f"no existing edge with label {edge_type.value} and id {edge_id} between {vertex_id_from} and {vertex_id_to}"
+            # )
             self.g.V().has(T.id, vertex_id_from).addE(edge_type.value).property(
                 T.id, edge_id
             ).property("step", edge_information["step"]).property(
@@ -91,9 +91,9 @@ class GremlinClient:
     def add_vertex(self, vertex_type: VertexType, vertex_id: int) -> None:
         try:
             existing_vertex = self.g.V().has(T.id, vertex_id).valueMap().next()
-            LOG.info(f"existing vertex with id {vertex_id} : {existing_vertex}")
+            # LOG.info(f"existing vertex with id {vertex_id} : {existing_vertex}")
         except Exception:
-            LOG.info(f"no existing vertex with id {vertex_id}")
+            # LOG.info(f"no existing vertex with id {vertex_id}")
             self.g.addV(vertex_type.value).property(T.id, vertex_id).property(
                 "name", vertex_id
             ).next()
