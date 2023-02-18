@@ -11,6 +11,7 @@ from typing import List
 
 
 def lambda_handler(event, context) -> None:
+    LOG.info("starting graph feeder")
     message = get_message_from_sqs(event=event)
     LOG.info(message)
     pg_connection_config: str = build_db_config_string(DB_CONFIG_DICT)
@@ -27,3 +28,4 @@ def lambda_handler(event, context) -> None:
         for transaction in transactions:
             gremlin_client.add_transaction(transaction)
         gremlin_client.close_connection()
+    LOG.info("graph feeder job done")

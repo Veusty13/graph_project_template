@@ -18,6 +18,7 @@ import psycopg2
 
 def lambda_handler(event, context) -> None:
 
+    LOG.info("starting table feeder")
     s3_paths = get_s3_path_from_event(event)
     count_paths = len(s3_paths)
     LOG.info(f"retrieved {count_paths} file(s) with data to insert to table")
@@ -41,3 +42,4 @@ def lambda_handler(event, context) -> None:
     sqs_message = {"last_batch_id": last_batch_id}
     send_sqs_message(message=sqs_message, queue_url=SQS_QUEUE_URL_FEED_GRAPH)
     conn.close()
+    LOG.info("table feeder job done")
