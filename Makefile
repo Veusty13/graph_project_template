@@ -26,13 +26,20 @@ ssh-localstack :
 ssh-postgres : 
 	docker exec -it graph-project-postgres /bin/bash
 
+#  once in gremlin console run the following two commands to access the transversal
 # :remote connect tinkerpop.server conf/remote.yaml session 
 # :remote console
 ssh-gremlin-console : 
 	docker exec -it graph-project-gremlin-console /bin/bash bin/gremlin.sh 
 
+get-raw-data : 
+	python scripts/data/load_data.py
+
 split-raw-data : 
-	cat resources/original_data/bank_fraud_raw_data_0.csv | parallel --header : --pipe -N1000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
+	cat resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N2000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
+
+prepare-data : 
+	make get-raw-data && make split-raw-data
 
 send-single-partition-to-bucket : 
 	docker exec -it graph-project-local-stack \

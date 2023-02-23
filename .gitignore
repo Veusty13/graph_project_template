@@ -139,3 +139,5 @@ resources/original_data/*
 resources/split_data/*
 
 infra/.terraform.tfstate.lock.info
+
+secrets.env

@@ -1,0 +1,1 @@
+g.V().bothE().has('isfraud',1).bothV().bothE().bothV()
