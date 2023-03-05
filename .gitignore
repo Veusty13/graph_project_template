@@ -135,7 +135,6 @@ infra/.terraform/*
 infra/terraform.tfstate.backup
 
 # resources data files
-resources/original_data/*
 resources/split_data/*
 
 infra/.terraform.tfstate.lock.info
