@@ -18,6 +18,7 @@ build-images :
 docker-compose : 
 	make build-images
 	docker image prune -f 
+	docker volume prune -f
 	docker compose up
 
 ssh-localstack : 
@@ -36,7 +37,7 @@ get-raw-data :
 	python scripts/data/load_data.py
 
 split-raw-data : 
-	cat resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N2000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
+	cat resources/original_data/bank_fraud_raw_data.csv | parallel --header : --pipe -N1000 'cat > resources/split_data/fraud_data_partition_{#}.csv'
 
 prepare-data : 
 	make get-raw-data && make split-raw-data

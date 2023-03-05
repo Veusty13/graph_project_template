@@ -43,3 +43,14 @@ services:
     depends_on:
       - graph-project-gremlin
     tty: true
+
+  graph-project-gremlin-visualizer:
+    image: prabushitha/gremlin-visualizer:latest
+    container_name: graph-project-gremlin-visualizer
+    depends_on:
+      - graph-project-gremlin
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    # replace the default value localhost by the name of the service that contains the gremlin server and run server
+    entrypoint: sh -c "apk add sed && sed -i 's/localhost/graph-project-gremlin/' src/reducers/gremlinReducer.js && npm start"
