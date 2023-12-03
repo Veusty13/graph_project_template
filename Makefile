@@ -13,7 +13,7 @@ build-images :
 	docker build -f "Dockerfile.postgres" -t "graph-project-postgres" "."
 	docker build -f "Dockerfile.local_stack" -t "graph-project-local-stack" "."
 	docker build -f "Dockerfile.gremlin" -t "graph-project-gremlin" "."
-	docker build -f "Dockerfile.gremlin_console" -t "graph-project-gremlin-console" "."
+	# docker build -f "Dockerfile.gremlin_console" -t "graph-project-gremlin-console" "."
 
 docker-compose : 
 	make build-images

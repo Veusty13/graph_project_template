@@ -37,12 +37,12 @@ services:
       - graph-project-local-stack
     ports:
       - "8182:8182"
-  graph-project-gremlin-console:
-    image: graph-project-gremlin-console
-    container_name: graph-project-gremlin-console
-    depends_on:
-      - graph-project-gremlin
-    tty: true
+  # graph-project-gremlin-console:
+  #   image: graph-project-gremlin-console
+  #   container_name: graph-project-gremlin-console
+  #   depends_on:
+  #     - graph-project-gremlin
+  #   tty: true
 
   graph-project-gremlin-visualizer:
     image: prabushitha/gremlin-visualizer:latest
